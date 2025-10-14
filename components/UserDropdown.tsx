@@ -13,19 +13,16 @@ import {useRouter} from "next/navigation";
 import {Button} from "@/components/ui/button";
 import {LogOut} from "lucide-react";
 import NavItems from "@/components/NavItems";
-// import {signOut} from "@/lib/actions/auth.actions";
+import {signOut} from "@/lib/actions/auth.actions";
 
-const dummyUser = {
-    name: "Viki",
-    email: "viki@example.com",
-};
+const UserDropdown = ({ user }: {user: User,}) => {
+    console.log("UserDropdown user:", user); // <-- Add this line
 
-const UserDropdown = () => {
     const router = useRouter();
-    const user = dummyUser; // Use dummy user
 
     const handleSignOut = async () => {
-   
+        await signOut();
+        router.push("/sign-in");
     }
 
     return (
@@ -69,7 +66,7 @@ const UserDropdown = () => {
                 </DropdownMenuItem>
                 <DropdownMenuSeparator className="hidden sm:block bg-gray-600"/>
                 <nav className="sm:hidden">
-                    <NavItems  />
+                    <NavItems />
                 </nav>
             </DropdownMenuContent>
         </DropdownMenu>

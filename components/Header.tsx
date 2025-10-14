@@ -2,11 +2,18 @@ import Link from "next/link";
 import Image from "next/image";
 import NavItems from "@/components/NavItems";
 import UserDropdown from "@/components/UserDropdown";
-// // import {searchStocks} from "@/lib/actions/finnhub.actions";
 
-const Header = async ({  }) => {
-    // const initialStocks = await searchStocks();
+type User = {
+    id: string;
+    name: string;
+    email: string;
+};
 
+interface HeaderProps {
+    user: User;
+}
+
+const Header = ({ user }: HeaderProps) => {
     return (
         <header className="sticky top-0 header">
             <div className="container header-wrapper">
@@ -14,12 +21,13 @@ const Header = async ({  }) => {
                     <Image src="/assets/icons/logo.svg" alt="Signalist logo" width={140} height={32} className="h-8 w-auto cursor-pointer" />
                 </Link>
                 <nav className="hidden sm:block">
-                    <NavItems  />
+                    <NavItems />
                 </nav>
 
-                <UserDropdown />
+                <UserDropdown user={user}  />
             </div>
         </header>
     )
 }
+
 export default Header
