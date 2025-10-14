@@ -1,24 +1,39 @@
-import { Schema, model, models, type Document, type Model } from 'mongoose';
+import mongoose from 'mongoose';
 
-export interface WatchlistItem extends Document {
-  userId: string;
-  symbol: string;
-  company: string;
-  addedAt: Date;
-}
-
-const WatchlistSchema = new Schema<WatchlistItem>(
+const watchlistSchema = new mongoose.Schema(
   {
-    userId: { type: String, required: true, index: true },
-    symbol: { type: String, required: true, uppercase: true, trim: true },
-    company: { type: String, required: true, trim: true },
-    addedAt: { type: Date, default: Date.now },
+    userId: {
+      type: String,
+      required: true,
+      index: true, // Add index for faster queries
+    },
+    stocks: [
+      {
+        symbol: {
+          type: String,
+          required: true,
+          uppercase: true, // Automatically convert to uppercase
+          trim: true, // Remove whitespace
+        },
+        company: {
+          type: String,
+          required: true,
+          trim: true,
+        },
+        addedAt: {
+          type: Date,
+          default: Date.now,
+        },
+      },
+    ],
   },
-  { timestamps: false }
+  {
+    timestamps: true,
+  }
 );
 
-// Prevent duplicate symbols per user
-WatchlistSchema.index({ userId: 1, symbol: 1 }, { unique: true });
+// Add compound index for userId and symbol
+watchlistSchema.index({ userId: 1, 'stocks.symbol': 1 });
 
-export const Watchlist: Model<WatchlistItem> =
-  (models?.Watchlist as Model<WatchlistItem>) || model<WatchlistItem>('Watchlist', WatchlistSchema);
+// Ensure the model isn't already defined
+export default mongoose.models.Watchlist || mongoose.model('Watchlist', watchlistSchema);
