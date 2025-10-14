@@ -1,5 +1,5 @@
 import TradingViewWidget from "@/components/TradingViewWidget";
-import WatchlistButton from "@/components/WatchListButton";
+// import WatchlistButton from "@/components/WatchListButton";
 import {
   SYMBOL_INFO_WIDGET_CONFIG,
   CANDLE_CHART_WIDGET_CONFIG,
@@ -73,11 +73,11 @@ export default async function StockDetails({ params }: StockDetailsPageProps) {
 
         {/* Watchlist Button at the bottom */}
         <div className="flex justify-end">
-          <WatchlistButton
+          {/* <WatchlistButton
             symbol={symbol.toUpperCase()}
             company={symbol.toUpperCase()}
             isInWatchlist={false}
-          />
+          /> */}
         </div>
       </section>
     </div>
